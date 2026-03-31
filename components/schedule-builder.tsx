@@ -100,6 +100,15 @@ export function ScheduleBuilder() {
             <div className="mt-3 text-3xl font-semibold text-white">{absentTeacherIds.length}</div>
           </div>
         </div>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+          <div className="rounded-[18px] border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300">Классы: {result.constraintSummary.classes}</div>
+          <div className="rounded-[18px] border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300">Слоты учителей: {result.constraintSummary.blockedTeacherSlots}</div>
+          <div className="rounded-[18px] border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300">Слоты кабинетов: {result.constraintSummary.blockedRoomSlots}</div>
+          <div className="rounded-[18px] border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300">События: {result.constraintSummary.blockedEvents}</div>
+          <div className="rounded-[18px] border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300">Ленты: {result.constraintSummary.splitGroups}</div>
+          <div className="rounded-[18px] border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300">Пары: {result.constraintSummary.pairLessons}</div>
+        </div>
       </Surface>
 
       <div className="grid gap-5 xl:grid-cols-[0.84fr_1.16fr]">
@@ -157,6 +166,22 @@ export function ScheduleBuilder() {
             title="Изменения и уведомления"
             description="После пересборки система показывает журнал изменений и список получателей."
           />
+          {result.substitutions.length > 0 ? (
+            <div className="mb-5 space-y-3">
+              {result.substitutions.slice(0, 3).map((item) => (
+                <div key={item.id} className="rounded-[22px] border border-violet-400/14 bg-violet-500/[0.06] p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="font-medium text-white">{item.className} · {item.subject}</div>
+                    <Badge tone="violet">Замена</Badge>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-slate-200">
+                    {item.previousSlot ? `${item.previousSlot} → ${item.nextSlot}` : item.nextSlot} · {item.roomName}
+                  </p>
+                  <div className="mt-2 font-mono-ui text-[10px] uppercase tracking-[0.2em] text-slate-500">{item.reason}</div>
+                </div>
+              ))}
+            </div>
+          ) : null}
           <div className="space-y-3">
             {result.notifications.map((item) => (
               <div key={item} className="rounded-[22px] border border-blue-400/12 bg-blue-500/[0.05] px-4 py-4 text-sm leading-6 text-slate-200">

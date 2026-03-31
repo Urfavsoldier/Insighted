@@ -17,6 +17,22 @@ export type Achievement = {
   description: string;
 };
 
+export type PortfolioEntry = {
+  id: string;
+  title: string;
+  type: "достижение" | "сертификат" | "олимпиада" | "внеучебная активность";
+  date: string;
+  verified: boolean;
+  issuer?: string;
+  description: string;
+};
+
+export type StudentPortfolio = {
+  studentId: string;
+  verifiedEntries: number;
+  entries: PortfolioEntry[];
+};
+
 export type SchoolEvent = {
   id: string;
   title: string;
@@ -25,6 +41,16 @@ export type SchoolEvent = {
   audience: string;
   location: string;
   description: string;
+};
+
+export type NotificationItem = {
+  id: string;
+  recipients: string[];
+  type: "расписание" | "оценка" | "событие" | "AI";
+  source: "InsightED" | "BilimClass" | "Умное расписание";
+  text: string;
+  isRead: boolean;
+  priority: "низкий" | "средний" | "высокий";
 };
 
 export type ActivityItem = {
@@ -236,4 +262,40 @@ export type ScheduleGenerationResult = {
   conflicts: ScheduleConflict[];
   changeLog: ScheduleChangeLog[];
   notifications: string[];
+  substitutions: ScheduleSubstitution[];
+  constraintSummary: ScheduleConstraintSummary;
+};
+
+export type ScheduleConstraintSummary = {
+  classes: number;
+  blockedTeacherSlots: number;
+  blockedRoomSlots: number;
+  blockedEvents: number;
+  splitGroups: number;
+  pairLessons: number;
+  absentTeachers: number;
+};
+
+export type ScheduleSubstitution = {
+  id: string;
+  className: string;
+  subject: string;
+  previousTeacherName?: string;
+  nextTeacherName: string;
+  previousSlot?: string;
+  nextSlot: string;
+  roomName: string;
+  reason: string;
+  impactedRoles: Role[];
+};
+
+export type SchoolAnalyticsSummary = {
+  classes: number;
+  students: number;
+  averageScore: number;
+  averageAttendance: number;
+  highRiskCount: number;
+  mediumRiskCount: number;
+  strongestSubjects: string[];
+  weakestSubjects: string[];
 };

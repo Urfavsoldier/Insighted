@@ -3,6 +3,7 @@ import { AiPanel } from "@/components/ai-panel";
 import { AIIntelligenceModule } from "@/components/ai-intelligence-module";
 import { BilimClassWidget } from "@/components/bilimclass-widget";
 import { PerformanceChart, RatingChart } from "@/components/charts";
+import { TeacherReportPanel } from "@/components/teacher-report-panel";
 import { Badge, SectionHeading, StatCard, Surface } from "@/components/ui";
 import { generateAiInsight } from "@/lib/ai";
 import { createPlatformSnapshot } from "@/lib/domain/selectors";
@@ -155,9 +156,7 @@ function TeacherDashboard() {
             <StatCard label="Тренд класса" value={`${insight.diagnostics.classAverageTrend >= 0 ? "+" : ""}${insight.diagnostics.classAverageTrend}`} delta="стабильно" accent="blue" />
             <StatCard label="Точность AI" value={`${insight.diagnostics.confidence}%`} delta="+2%" accent="violet" />
           </div>
-          <button type="button" className="mt-5 rounded-[24px] border border-blue-400/16 bg-blue-500/10 px-5 py-4 text-sm text-white transition hover:border-blue-400/28 hover:bg-blue-500/16">
-            Сгенерировать отчет по классу
-          </button>
+          <TeacherReportPanel insight={insight} />
         </Surface>
         <Surface className="bg-gradient-to-br from-black/10 to-rose-500/[0.06]">
           <SectionHeading eyebrow="Зона риска" title="Кого AI советует не упускать из внимания" />
@@ -257,7 +256,7 @@ function AdminDashboard() {
 
       <div className="grid gap-5 xl:grid-cols-[1fr_1fr]">
         <Surface><SectionHeading eyebrow="Аналитика по классам" title="Сильные и слабые зоны" /><div className="grid gap-3 md:grid-cols-2">{insight.strongestSubjects.concat(insight.weakestSubjects).map((item) => <div key={item} className="rounded-[22px] border border-white/8 bg-white/[0.03] p-4 text-sm leading-6 text-slate-300">{item}</div>)}</div></Surface>
-        <Surface><SectionHeading eyebrow="Управление" title="Что можно сделать сейчас" /><div className="grid gap-3"><div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 text-sm text-slate-300">Создать событие и выбрать классы показа</div><div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 text-sm text-slate-300">Открыть умное расписание и обновить сетку</div><div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 text-sm text-slate-300">Опубликовать новость для школы</div><div className="rounded-[24px] border border-blue-400/12 bg-blue-500/[0.05] p-4 text-sm text-slate-200">Связано: {snapshot.classes.length} класс · {snapshot.schedule.lessons.length} уроков · {snapshot.notifications.length} уведомления</div></div></Surface>
+        <Surface><SectionHeading eyebrow="Управление" title="Что можно сделать сейчас" /><div className="grid gap-3"><div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 text-sm text-slate-300">Создать событие и выбрать классы или роли показа</div><div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 text-sm text-slate-300">Открыть умное расписание и выпустить замены</div><div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 text-sm text-slate-300">Опубликовать новость и сохранить ее в истории школы</div><div className="rounded-[24px] border border-blue-400/12 bg-blue-500/[0.05] p-4 text-sm text-slate-200">Связано: {snapshot.classes.length} класс · {snapshot.schedule.lessons.length} уроков · {snapshot.notifications.length} уведомления</div></div></Surface>
       </div>
     </div>
   );

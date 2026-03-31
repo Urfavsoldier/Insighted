@@ -1,4 +1,4 @@
-import { AIInsight, Role, ScheduleGenerationResult } from "@/lib/types";
+import { AIInsight, NotificationItem, Role, ScheduleGenerationResult, SchoolAnalyticsSummary, StudentPortfolio } from "@/lib/types";
 
 export type StudentRecord = {
   id: string;
@@ -17,6 +17,19 @@ export type TeacherRecord = {
 export type ParentRecord = {
   id: string;
   fullName: string;
+  studentIds: string[];
+};
+
+export type AdminRecord = {
+  id: string;
+  fullName: string;
+  permissions: string[];
+};
+
+export type ClassRecord = {
+  id: string;
+  title: string;
+  curatorTeacherId: string;
   studentIds: string[];
 };
 
@@ -50,6 +63,19 @@ export type AchievementRecord = {
   level: string;
   recordedAt: string;
 };
+
+export type EventRecord = {
+  id: string;
+  title: string;
+  date: string;
+  audience: string;
+  targetRoles: Role[];
+  classIds: string[];
+};
+
+export type PortfolioRecord = StudentPortfolio;
+
+export type NotificationRecord = NotificationItem;
 
 export type BilimClassStudentPayload = {
   studentId: string;
@@ -88,3 +114,5 @@ export type StructuredScheduleResponse = {
   generatedAt: string;
   data: ScheduleGenerationResult;
 };
+
+export type SchoolAnalyticsRecord = SchoolAnalyticsSummary;

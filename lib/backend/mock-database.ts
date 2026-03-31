@@ -1,10 +1,16 @@
 import { allStudents, leaderboard, schoolEvents } from "@/lib/mock-data";
 import { classroomAvailability, scheduleEvents, scheduleRequirements, teacherAvailability } from "@/lib/schedule-data";
 import {
+  AdminRecord,
   AchievementRecord,
   AttendanceRecord,
+  ClassRecord,
+  EventRecord,
   GradeRecord,
+  NotificationRecord,
   ParentRecord,
+  PortfolioRecord,
+  SchoolAnalyticsRecord,
   StudentRecord,
   SubjectRecord,
   TeacherRecord,
@@ -29,6 +35,25 @@ export const parentsTable: ParentRecord[] = allStudents.map((student) => ({
   fullName: student.parentName,
   studentIds: [student.id],
 }));
+
+export const adminsTable: AdminRecord[] = [
+  { id: "admin-1", fullName: "Асия Кенжебаева", permissions: ["analytics", "schedule", "events", "announcements"] },
+];
+
+export const classesTable: ClassRecord[] = [
+  {
+    id: "10A",
+    title: "10A",
+    curatorTeacherId: "t-curator-1",
+    studentIds: allStudents.filter((student) => student.className === "10A").map((student) => student.id),
+  },
+  {
+    id: "10B",
+    title: "10B",
+    curatorTeacherId: "t-curator-1",
+    studentIds: [],
+  },
+];
 
 export const subjectsTable: SubjectRecord[] = [
   { id: "sub-math", name: "Алгебра", roomType: "general" },
@@ -72,6 +97,70 @@ export const achievementsTable: AchievementRecord[] = allStudents.flatMap((stude
     recordedAt: achievement.date,
   })),
 );
+
+export const portfoliosTable: PortfolioRecord[] = allStudents.map((student) => ({
+  studentId: student.id,
+  verifiedEntries: student.achievements.length,
+  entries: student.achievements.map((achievement) => ({
+    id: achievement.id,
+    title: achievement.title,
+    type: "достижение" as const,
+    date: achievement.date,
+    verified: true,
+    issuer: "Лицей Aqbobek",
+    description: achievement.description,
+  })),
+}));
+
+export const eventsTable: EventRecord[] = schoolEvents.map((event) => ({
+  id: event.id,
+  title: event.title,
+  date: event.date,
+  audience: event.audience,
+  targetRoles: event.audience === "Родители" ? ["parent", "admin"] : ["student", "teacher", "admin"],
+  classIds: event.audience.includes("10-11") ? ["10A", "10B"] : ["10A"],
+}));
+
+export const notificationsTable: NotificationRecord[] = [
+  {
+    id: "n-1",
+    recipients: ["10A", "parent"],
+    type: "AI",
+    source: "InsightED",
+    text: "AI зафиксировал ранний риск по физике и предложил недельный план.",
+    isRead: false,
+    priority: "высокий",
+  },
+  {
+    id: "n-2",
+    recipients: ["teacher", "10A"],
+    type: "расписание",
+    source: "Умное расписание",
+    text: "После отсутствия преподавателя обновлены два слота в расписании 10A.",
+    isRead: false,
+    priority: "средний",
+  },
+  {
+    id: "n-3",
+    recipients: ["student", "parent"],
+    type: "событие",
+    source: "InsightED",
+    text: "Открыта регистрация на олимпиадный интенсив и инженерный показ.",
+    isRead: true,
+    priority: "низкий",
+  },
+];
+
+export const schoolAnalyticsTable: SchoolAnalyticsRecord = {
+  classes: 2,
+  students: allStudents.length,
+  averageScore: Number((allStudents.reduce((acc, student) => acc + student.averageScore, 0) / allStudents.length).toFixed(2)),
+  averageAttendance: Number((allStudents.reduce((acc, student) => acc + student.attendance, 0) / allStudents.length).toFixed(1)),
+  highRiskCount: allStudents.filter((student) => student.riskLevel === "high").length,
+  mediumRiskCount: allStudents.filter((student) => student.riskLevel === "medium").length,
+  strongestSubjects: ["Биология", "Английский язык", "Информатика"],
+  weakestSubjects: ["Алгебра", "Физика", "Казахский язык"],
+};
 
 export const scheduleConstraintsTable = {
   teacherAvailability,

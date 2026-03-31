@@ -15,9 +15,9 @@ export const classGroups = [{ id: "10A", name: "10A" }, { id: "10B", name: "10B"
 
 export const classrooms = [
   { id: "r101", name: "Каб. 101", type: "general" as const },
-  { id: "r204", name: "Lab 204", type: "science" as const },
-  { id: "r305", name: "IT 305", type: "computer" as const },
-  { id: "r210", name: "Lang 210", type: "language" as const },
+  { id: "r204", name: "Каб. 204", type: "science" as const },
+  { id: "r305", name: "Каб. 305", type: "computer" as const },
+  { id: "r210", name: "Каб. 210", type: "language" as const },
 ];
 
 export const teacherAvailability: TeacherAvailability[] = [
@@ -32,9 +32,9 @@ export const teacherAvailability: TeacherAvailability[] = [
 
 export const classroomAvailability: ClassroomAvailability[] = [
   { roomId: "r101", roomName: "Каб. 101", unavailable: {} },
-  { roomId: "r204", roomName: "Lab 204", unavailable: { Вт: ["s3"] } },
-  { roomId: "r305", roomName: "IT 305", unavailable: { Ср: ["s4"] } },
-  { roomId: "r210", roomName: "Lang 210", unavailable: { Пн: ["s2"] } },
+  { roomId: "r204", roomName: "Каб. 204", unavailable: { Вт: ["s3"] } },
+  { roomId: "r305", roomName: "Каб. 305", unavailable: { Ср: ["s4"] } },
+  { roomId: "r210", roomName: "Каб. 210", unavailable: { Пн: ["s2"] } },
 ];
 
 export const scheduleRequirements: SubjectRequirement[] = [
@@ -52,5 +52,5 @@ export const scheduleRequirements: SubjectRequirement[] = [
 
 export const scheduleEvents: SchoolEventConstraint[] = [
   { id: "ev1", classIds: ["10A", "10B"], day: "Ср", slotIds: ["s5"], title: "Классный час" },
-  { id: "ev2", classIds: ["10A"], day: "Пт", slotIds: ["s6"], title: "Показ STEM-клуба" },
+  { id: "ev2", classIds: ["10A"], day: "Пт", slotIds: ["s6"], title: "Показ инженерного клуба" },
 ];

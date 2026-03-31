@@ -16,20 +16,40 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/page.js"
     ],
+    "/api/bilimclass/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/bilimclass/route.js"
+    ],
     "/student-profile/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/student-profile/page.js"
     ],
-    "/kiosk-mode/page": [
+    "/ai-insights/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/kiosk-mode/page.js"
+      "static/chunks/app/ai-insights/page.js"
+    ],
+    "/api/ai-insights/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/ai-insights/route.js"
+    ],
+    "/class-rating/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/class-rating/page.js"
     ],
     "/smart-schedule/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/smart-schedule/page.js"
+    ],
+    "/kiosk-mode/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/kiosk-mode/page.js"
     ]
   }
 }

@@ -3,6 +3,7 @@ import {
   ScheduleChangeLog,
   ScheduleConflict,
   ScheduleGenerationResult,
+  ScheduleSubstitution,
   ScheduledLesson,
   SchoolEventConstraint,
   SubjectRequirement,
@@ -51,10 +52,16 @@ function slotIndex(slotId: string) {
   return timeSlots.findIndex((slot) => slot.id === slotId);
 }
 
+function slotLabel(slotId: string) {
+  const slot = timeSlots.find((item) => item.id === slotId);
+  return slot ? `${slot.label} · ${slot.start}` : slotId;
+}
+
 export function generateSchedule(options: SchedulerOptions): ScheduleGenerationResult {
   const absentTeacherIds = options.absentTeacherIds ?? [];
   const lessons: ScheduledLesson[] = [];
   const conflicts: ScheduleConflict[] = [];
+  const substitutions: ScheduleSubstitution[] = [];
   const teacherBusy = new Set<string>();
   const roomBusy = new Set<string>();
   const classBusy = new Set<string>();
@@ -179,6 +186,7 @@ export function generateSchedule(options: SchedulerOptions): ScheduleGenerationR
     for (const lesson of lessons) {
       const previous = previousMap.get(lesson.id);
       if (previous && (previous.day !== lesson.day || previous.slotId !== lesson.slotId || previous.teacherId !== lesson.teacherId || previous.roomId !== lesson.roomId)) {
+        const reason = absentTeacherIds.includes(previous.teacherId) ? "Отсутствие преподавателя" : "Автоперестроение по ограничениям";
         lesson.status = "updated";
         changeLog.push({
           id: `chg-${lesson.id}`,
@@ -197,6 +205,18 @@ export function generateSchedule(options: SchedulerOptions): ScheduleGenerationR
           scope: "teacher",
           audience: lesson.teacherName,
           message: `${lesson.teacherName} получил обновление по своему расписанию.`,
+        });
+        substitutions.push({
+          id: `sub-${lesson.id}`,
+          className: lesson.className,
+          subject: lesson.subject,
+          previousTeacherName: previous.teacherName,
+          nextTeacherName: lesson.teacherName,
+          previousSlot: `${previous.day} · ${slotLabel(previous.slotId)}`,
+          nextSlot: `${lesson.day} · ${slotLabel(lesson.slotId)}`,
+          roomName: lesson.roomName,
+          reason,
+          impactedRoles: ["student", "teacher", "admin"],
         });
       }
     }
@@ -221,5 +241,15 @@ export function generateSchedule(options: SchedulerOptions): ScheduleGenerationR
     conflicts,
     changeLog,
     notifications,
+    substitutions,
+    constraintSummary: {
+      classes: new Set(options.requirements.map((item) => item.classId)).size,
+      blockedTeacherSlots: options.teacherAvailability.reduce((acc, item) => acc + Object.values(item.unavailable).flat().length, 0),
+      blockedRoomSlots: options.classroomAvailability.reduce((acc, item) => acc + Object.values(item.unavailable).flat().length, 0),
+      blockedEvents: options.events.length,
+      splitGroups: options.requirements.filter((item) => item.splitGroup).length,
+      pairLessons: options.requirements.filter((item) => item.pairPreferred).length,
+      absentTeachers: absentTeacherIds.length,
+    },
   };
 }

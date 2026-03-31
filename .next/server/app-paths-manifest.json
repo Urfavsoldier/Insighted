@@ -1,8 +1,9 @@
 {
-  "/icon.svg/route": "app/icon.svg/route.js",
-  "/page": "app/page.js",
+  "/api/ai-insights/route": "app/api/ai-insights/route.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/student-profile/page": "app/student-profile/page.js",
-  "/kiosk-mode/page": "app/kiosk-mode/page.js",
-  "/smart-schedule/page": "app/smart-schedule/page.js"
+  "/ai-insights/page": "app/ai-insights/page.js",
+  "/class-rating/page": "app/class-rating/page.js",
+  "/smart-schedule/page": "app/smart-schedule/page.js",
+  "/kiosk-mode/page": "app/kiosk-mode/page.js"
 }
