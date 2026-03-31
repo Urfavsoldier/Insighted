@@ -1,16 +1,19 @@
 # InsightED
 
-Многоролевой AI-портал для Aqbobek Lyceum с аналитикой успеваемости, Smart Schedule и Kiosk Mode.
+## Запуск проекта
 
-## Возможности
-- AI-анализ и предиктивные рекомендации
-- Mock API BilimClass
-- Smart Schedule
-- Kiosk Mode
-- Тёмная / светлая тема
-- Роли: ученик, учитель, родитель, администрация
-
-## Быстрый запуск
+### Варианты установки
 ```bash
+Вариант 1 — через GitHub
+git clone https://github.com/Urfavsoldier/Insighted.git
+cd Insighted
 npm install
 npm run dev
+Вариант 2 — через ZIP
+
+Скачайте архив через GitHub → Code → Download ZIP, распакуйте его, откройте папку проекта и выполните:
+
+npm install
+npm run dev
+Открыть в браузере
+http://localhost:3000
